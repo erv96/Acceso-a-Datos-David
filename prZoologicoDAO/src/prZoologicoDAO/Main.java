@@ -6,6 +6,7 @@ public class Main {
 		
 		Animal a = new Animal("Ardilla", 0.1, "Bosque");
 		AnimalDAO.insertAnimal(a);
+		//AnimalDAO.deleteAnimal();
 
 	}
 
