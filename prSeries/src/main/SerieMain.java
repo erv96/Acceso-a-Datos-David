@@ -25,15 +25,22 @@ public class SerieMain {
 		}
 		
 		Serie serie1 = serieDao.buscarPorId(1);
-		serie1.setPlataforma("Neftlix");
-		serieDao.modificar(serie1);
-		ArrayList<Temporada> temporadas = serieDao.obtenerTemporadas(serie1);
+		System.out.println(serie1);
+		TemporadaDao delete = new TemporadaDao();
+		Temporada tempSimp9 = new Temporada(9,"Temporada 9",serie1);
+		Temporada tempSimp10 = new Temporada(10,"Temporada 10",serie1);
+		delete.borrar(tempSimp9);
+		delete.borrar(tempSimp10);
+		serieDao.borrar(serie1);
+		
+		/*serie1.setPlataforma("Neftlix");
+		serieDao.modificar(serie1);*/
+		/*ArrayList<Temporada> temporadas = serieDao.obtenerTemporadas(serie1);
 		for (Temporada temp : temporadas) {
 			System.out.println(temp);
-		}
+		}*/
 		
 		/*Temporada tempSimp10 = new Temporada(10,"Temporada 10",serie1);
-		Temporada tempSimp9 = new Temporada(9,"Temporada 9",serie1);
 
 		TemporadaDao tempDao = new TemporadaDao();
 		tempDao.insertar(tempSimp10);
