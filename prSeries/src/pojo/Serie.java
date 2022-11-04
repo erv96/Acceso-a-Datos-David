@@ -18,6 +18,17 @@ public class Serie {
 	}
 
 
+	public Serie(int id, String titulo, int edad, String plataforma, ArrayList<Temporada> temporada) {
+		super();
+		this.id = id;
+		this.titulo = titulo;
+		this.edad = edad;
+		this.plataforma = plataforma;
+		this.temporada = temporada;
+	}
+
+
+
 	public String getTitulo() {
 		return titulo;
 	}
