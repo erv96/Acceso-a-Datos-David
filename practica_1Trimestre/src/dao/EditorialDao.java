@@ -100,14 +100,14 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 	}
 
 	@Override
-	public Editorial buscarPorId(int id) {
+	public Editorial buscarPorNombre(String nombre) {
 		Editorial editorial = null;
 		connection = openConnection();
 
-		String query = "Select*from editoriales where id=?";
+		String query = "Select*from editoriales where nombre=?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setInt(1, id);
+			ps.setString(1, nombre);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				editorial = new Editorial(rs.getInt("id"), rs.getString("Nombre"), rs.getString("fundador_fundadores"),

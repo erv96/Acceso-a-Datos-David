@@ -35,5 +35,5 @@ public interface InterfazDao<T> {
 	 * @param i el id del objeto T
 	 * @return un objeto T
 	 */
-	public T buscarPorId(int i);
+	public T buscarPorNombre(String i);
 }
