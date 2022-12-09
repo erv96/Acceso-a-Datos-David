@@ -19,6 +19,15 @@ public class Superheroe {
 		this.editorial_id = editorial_id;
 	}
 	
+	public Superheroe(int id, String nombre, String identidad_secreta, String poderes, short año_primera_aparicion) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.identidad_secreta = identidad_secreta;
+		this.poderes = poderes;
+		this.año_primera_aparicion = año_primera_aparicion;
+	}
+	
 	
 	public Superheroe(String nombre, String identidad_secreta, String poderes, short año_primera_aparicion,
 			Editorial editorial_id) {
@@ -29,6 +38,8 @@ public class Superheroe {
 		this.año_primera_aparicion = año_primera_aparicion;
 		this.editorial_id = editorial_id;
 	}
+	
+	
 
 
 

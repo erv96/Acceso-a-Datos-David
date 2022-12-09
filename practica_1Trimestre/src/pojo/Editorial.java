@@ -10,8 +10,8 @@ public class Editorial {
 	private String fundador_fundadores;
 	private Date fecha_fundacion;
 	private ArrayList<Superheroe> listaSuperheroe;
-	
-	
+
+
 
 	public Editorial(int id, String nombre, String fundador_fundadores, Date fecha_fundacion,
 			ArrayList<Superheroe> listaSuperheroe) {
@@ -64,6 +64,14 @@ public class Editorial {
 
 	public void setFecha_fundacion(Date fecha_fundacion) {
 		this.fecha_fundacion = fecha_fundacion;
+	}
+	
+	public ArrayList<Superheroe> getListaSuperheroe() {
+		return listaSuperheroe;
+	}
+
+	public void setListaSuperheroe(ArrayList<Superheroe> listaSuperheroe) {
+		this.listaSuperheroe = listaSuperheroe;
 	}
 
 	@Override

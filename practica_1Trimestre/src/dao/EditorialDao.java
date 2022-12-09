@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import pojo.Editorial;
+import pojo.Superheroe;
 
 public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 	private Connection connection;
@@ -57,8 +58,8 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 	public void borrar(Editorial t) {
 		int editorial_id = t.getId();
 		
-		//TemporadaDao tempDao = new TemporadaDao();
-		//tempDao.borrarSerieId(serie_id);
+		SuperheroeDao superDao = new SuperheroeDao();
+		superDao.borrarSuperId(editorial_id);
 		
 		connection = openConnection();
 		String query = "delete from editoriales where id=?";
@@ -85,8 +86,22 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Editorial editorialActual = new Editorial(rs.getString("Nombre"), rs.getString("fundador_fundadores"),
-						rs.getDate("fecha_fundacion"));
+				ArrayList<Superheroe> superheroes = new ArrayList<Superheroe>();
+
+				Editorial editorialActual = new Editorial(rs.getInt("id"),rs.getString("Nombre"), rs.getString("fundador_fundadores"),
+						rs.getDate("fecha_fundacion"),null);
+				String query_superhero = "select * from superheroes where editorial_id=?";
+				PreparedStatement ps_superhero = connection.prepareStatement(query_superhero);
+				ps_superhero.setInt(1, rs.getInt("id"));
+				ResultSet rs_superhero = ps_superhero.executeQuery();
+				
+				while(rs_superhero.next()) {
+					Superheroe superhero = new Superheroe(rs.getInt("id"),rs.getString("nombre"),rs.getString("identidad_secreta"),
+							rs.getString("poderes"),rs.getShort("año_primera_aparicion"));
+					superheroes.add(superhero);
+				}
+				
+				editorialActual.setListaSuperheroe(superheroes);
 				allEditoriales.add(editorialActual);
 			}
 
@@ -112,6 +127,7 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 			while (rs.next()) {
 				editorial = new Editorial(rs.getInt("id"), rs.getString("Nombre"), rs.getString("fundador_fundadores"),
 						rs.getDate("fecha_fundacion"),null);
+				
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

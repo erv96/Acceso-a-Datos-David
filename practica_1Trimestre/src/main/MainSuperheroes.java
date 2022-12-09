@@ -14,14 +14,32 @@ import pojo.Superheroe;
 public class MainSuperheroes {
 
 	public static void main(String[] args) {
-		Editorial marvel = new Editorial("Marvel","Martin",Date.valueOf("1939-1-10"));
+		/*Editorial marvel = new Editorial("Marvel","Martin",Date.valueOf("1939-1-10"));
 		Editorial dc = new Editorial("DC","Jeje",Date.valueOf("1970-1-10"));
 		EditorialDao edit = new EditorialDao();
 		//edit.insertar(dc);
 		Editorial marvelB = edit.buscarPorNombre("DC");
 		Superheroe hola = new Superheroe("Hola","Original hola","saludar",(short)200,marvelB);
+		Superheroe mem = new Superheroe("Prueba","soy yo","ser yo",(short)344,marvelB);
 		SuperheroeDao pepe = new SuperheroeDao();
-		pepe.insertar(hola);
+		//pepe.insertar(mem);
+		edit.borrar(marvelB);*/
+		
+		Editorial marvel = new Editorial("Marvel","Martin",Date.valueOf("1939-1-10"));
+		EditorialDao crear = new EditorialDao();
+		//crear.insertar(marvel);
+		Editorial marvelBuscar = crear.buscarPorNombre("Marvel");
+		Superheroe hola = new Superheroe("Hola","Original hola","saludar",(short)200,marvelBuscar);
+		
+		SuperheroeDao insertar = new SuperheroeDao();
+		//insertar.insertar(hola);
+		
+		System.out.println(insertar.buscarPorNombre("hola"));
+		//insertar.borrar(hola);
+		
+		
+		
+		
 		
 		//edit.insertar(marvel);
 		//edit.insertar(dc);
