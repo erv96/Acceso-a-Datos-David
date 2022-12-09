@@ -23,6 +23,14 @@ public class Editorial {
 		this.listaSuperheroe = listaSuperheroe;
 	}
 	
+	public Editorial(int id, String nombre, String fundador_fundadores, Date fecha_fundacion) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.fundador_fundadores = fundador_fundadores;
+		this.fecha_fundacion = fecha_fundacion;
+	}
+	
 	
 
 	public Editorial(String nombre, String fundador_fundadores, Date fecha_fundacion) {
@@ -76,8 +84,10 @@ public class Editorial {
 
 	@Override
 	public String toString() {
-		return "Editorial [id=" + id + ", nombre=" + nombre + ", fundador_fundadores=" + fundador_fundadores
-				+ ", fecha_fundacion=" + fecha_fundacion + "]";
+		return "\tID: " + id
+				+ "\n\tNOMBRE: " + nombre 
+				+ "\n\tFUNDADOR@ " + fundador_fundadores
+				+ "\n\tFECHA DE FUNDACIÓN " + fecha_fundacion+"\n";
 	}
 	
 	

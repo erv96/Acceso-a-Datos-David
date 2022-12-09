@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import pojo.Editorial;
@@ -53,6 +52,8 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 		}
 		closeConnection();
 	}
+	
+
 
 	@Override
 	public void borrar(Editorial t) {
@@ -75,6 +76,24 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 		closeConnection();
 		
 	}
+	
+	public void truncateEditoriales() {
+		connection = openConnection();
+		String queryClaves = "SET FOREIGN_KEY_CHECKS = 0";
+		String query = "Truncate table editoriales";
+		PreparedStatement ps;
+		try {
+			ps = connection.prepareStatement(queryClaves);
+			ps.executeUpdate();
+			ps = connection.prepareStatement(query);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		closeConnection();
+	}
 
 	@Override
 	public ArrayList<Editorial> buscarTodos() {
@@ -89,19 +108,8 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 				ArrayList<Superheroe> superheroes = new ArrayList<Superheroe>();
 
 				Editorial editorialActual = new Editorial(rs.getInt("id"),rs.getString("Nombre"), rs.getString("fundador_fundadores"),
-						rs.getDate("fecha_fundacion"),null);
-				String query_superhero = "select * from superheroes where editorial_id=?";
-				PreparedStatement ps_superhero = connection.prepareStatement(query_superhero);
-				ps_superhero.setInt(1, rs.getInt("id"));
-				ResultSet rs_superhero = ps_superhero.executeQuery();
+						rs.getDate("fecha_fundacion"));
 				
-				while(rs_superhero.next()) {
-					Superheroe superhero = new Superheroe(rs.getInt("id"),rs.getString("nombre"),rs.getString("identidad_secreta"),
-							rs.getString("poderes"),rs.getShort("año_primera_aparicion"));
-					superheroes.add(superhero);
-				}
-				
-				editorialActual.setListaSuperheroe(superheroes);
 				allEditoriales.add(editorialActual);
 			}
 
