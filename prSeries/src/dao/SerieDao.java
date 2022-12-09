@@ -79,10 +79,10 @@ public class SerieDao extends ObjetoDao implements InterfazDao<Serie> {
 			e.printStackTrace();
 		}
 
-		//closeConnection();
+		// closeConnection();
 		return temporadas;
 	}
-	
+
 	public ArrayList<Temporada> obtenerTemporadaPorId(int serie_id) {
 		ArrayList<Temporada> temporadas = new ArrayList<>();
 		connection = openConnection();
@@ -111,17 +111,25 @@ public class SerieDao extends ObjetoDao implements InterfazDao<Serie> {
 
 	@Override
 	public void borrar(Serie t) {
+		int serie_id = t.getId();
+		// DENTRO DE ESTE MÉTODO INSTANCIAMOS UN OBJETO TEMPORADA Y CON
+		// SU MÉTODO BORRAR BORRAMOS TODAS LAS TEMPORADAS CON EL ID DE LA SERIE
+		// QUE QUEREMOS BORRAR, ESTO LO HACEMOS PARA ELIMINAR DIRECTAMENTE LA SERIE
+		// JUNTO CON SUS TEMPORADAS.
+		TemporadaDao tempDao = new TemporadaDao();
+		tempDao.borrarSerieId(serie_id);
+
 		connection = openConnection();
 		String query = "delete from series where id=?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(query);
-			ps.setInt(1, t.getId());
+			ps.setInt(1, serie_id);
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		closeConnection();
 	}
 
@@ -135,8 +143,26 @@ public class SerieDao extends ObjetoDao implements InterfazDao<Serie> {
 			PreparedStatement ps = connection.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Serie serieActual = new Serie(rs.getString("titulo"), rs.getInt("edad"), rs.getString("plataforma"));
+				ArrayList<Temporada> temporadas = new ArrayList<Temporada>();
+
+				Serie serieActual = new Serie(rs.getInt("id"), rs.getString("titulo"), rs.getInt("edad"),
+						rs.getString("plataforma"), null);
+
+				String query_temporadas = "select * from temporadas where serie_id=?";
+				PreparedStatement ps_temporadas = connection.prepareStatement(query_temporadas);
+				ps_temporadas.setInt(1, rs.getInt("id"));
+				ResultSet rs_temporadas = ps_temporadas.executeQuery();
+
+				while (rs_temporadas.next()) {
+					Temporada temporada = new Temporada(rs_temporadas.getInt("id"),
+							rs_temporadas.getInt("num_temporada"), rs_temporadas.getString("titulo")
+							);
+					
+					temporadas.add(temporada);
+				}
+				serieActual.setTemporada(temporadas);
 				allSeries.add(serieActual);
+
 			}
 
 		} catch (SQLException e) {

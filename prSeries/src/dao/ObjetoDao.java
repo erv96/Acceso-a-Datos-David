@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import pojo.Temporada;
 import util.DataBaseConnection;
 
 public abstract class ObjetoDao {
@@ -23,4 +24,6 @@ public abstract class ObjetoDao {
 			e.printStackTrace();
 		}
 	}
+
+	
 }
