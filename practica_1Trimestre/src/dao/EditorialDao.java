@@ -146,6 +146,21 @@ public class EditorialDao extends ObjetoDao implements InterfazDao<Editorial> {
 
 		return editorial;
 	}
+	
+	public void borrarTodos() {
+		connection = openConnection();
+		String query = "Delete from editoriales";
+		try {
+			PreparedStatement ps = connection.prepareStatement(query);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		closeConnection();
+		
+	}
 
 
 

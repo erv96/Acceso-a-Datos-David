@@ -9,8 +9,8 @@ CREATE TABLE editoriales(
 
 CREATE TABLE superheroes(
 	id INT PRIMARY KEY AUTO_INCREMENT,
-    nombre VARCHAR(100) UNIQUE NOT NULL,
-    identidad_secreta VARCHAR(100) UNIQUE NOT NULL,
+    nombre VARCHAR(100)  NOT NULL,
+    identidad_secreta VARCHAR(100)  NOT NULL,
     poderes VARCHAR(1000) NOT NULL,
     año_primera_aparicion NUMERIC(4),
     editorial_id INT NOT NULL,
@@ -19,3 +19,6 @@ CREATE TABLE superheroes(
         REFERENCES editoriales(id)
 
 );
+
+SELECT*FROM editoriales;
+SELECT*FROM superheroes;

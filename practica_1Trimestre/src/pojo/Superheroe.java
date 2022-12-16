@@ -44,17 +44,12 @@ public class Superheroe {
 		return editorial_numero;
 	}
 
-	public void setEditorial_numero(int editorial_numero) {
-		this.editorial_numero = editorial_numero;
-	}
+	
 
 	public int getId() {
 		return id;
 	}
 
-	public void setId(int id) {
-		this.id = id;
-	}
 
 	public String getNombre() {
 		return nombre;
@@ -92,9 +87,7 @@ public class Superheroe {
 		return editorial_id;
 	}
 
-	public void setEditorial_id(Editorial editorial_id) {
-		this.editorial_id = editorial_id;
-	}
+	
 
 	@Override
 	public String toString() {

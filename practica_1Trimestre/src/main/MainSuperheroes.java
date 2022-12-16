@@ -16,10 +16,6 @@ public class MainSuperheroes {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		SuperheroeDao truncate = new SuperheroeDao();
-		EditorialDao truncateEd = new EditorialDao();
-		truncate.truncateSuperheroe();
-		truncateEd.truncateEditoriales();
 
 		byte opcion = -1;
 		do {
@@ -29,20 +25,15 @@ public class MainSuperheroes {
 					+ "\n\t2 - Insertar Superheroe" + "\n\t3 - Mostrar Editoriales" + "\n\t4 - Mostrar Superheroes"
 					+ "\n\t5 - Borrar una editorial (si borras la editorial los superheores que haya en ella también desaparecerán)"
 					+ "\n\t6 - Borrar un superheroe" + "\n\t7 - Modificar una Editorial"
-					+ "\n\t8 - Modificar un Superheroe" + "\n\t9 - Borrar todos los superheroes" + "\n\t10 - Salir");
+					+ "\n\t8 - Modificar un Superheroe" + "\n\t9 - Borrar todos los superheroes"
+					+ "\n\t10 - Borrar todas las editoriales"
+					+ "\n\t11 - Resetear BBDD (Se borrarán todos los registros y el ID volverá a 0)"
+					+ "\n\t12 - Salir");
 			opcion = Byte.parseByte(sc.nextLine());
 
 			switch (opcion) {
 			case 1:
-				System.out.println("Inserta el nombre de la editorial");
-				String nombre = sc.nextLine();
-				System.out.println("Inserta su fundador o fundadora");
-				String fundador = sc.nextLine();
-				System.out.println("Inserta la fecha de su fundación en el siguiente formato YYYY-MM-DD");
-				String fecha = sc.nextLine();
-				Date fechita = Date.valueOf(fecha);
-
-				Editorial editorial = new Editorial(nombre, fundador, fechita);
+				Editorial editorial = new Editorial("Marvel", "Stan Lee", Date.valueOf("1939-09-22"));
 				EditorialDao funciones = new EditorialDao();
 				funciones.insertar(editorial);
 				System.out.println("Tu editorial se ha insertado correctamente");
@@ -58,15 +49,6 @@ public class MainSuperheroes {
 							"\nTodavía no hay ninguna editorial en la base de datos, debes introducir una primero\n");
 					break;
 				} else {
-					System.out.println("Inserta el nombre del superheroe");
-					String nombreSuper = sc.nextLine();
-					System.out.println("Inserta su identidad secreta");
-					String identidad = sc.nextLine();
-					System.out.println("Inserta sus poderes");
-					String poderes = sc.nextLine();
-					System.out.println("Inserta el año de su primera aparición");
-					Short año = Short.parseShort(sc.nextLine());
-					System.out.println("Elige la editorial a la que pertenece tu superheroe:");
 					byte opcionEd = -1;
 					do {
 						for (byte i = 0; i < editoriales.size(); i++) {
@@ -76,8 +58,8 @@ public class MainSuperheroes {
 
 					} while (opcionEd > editoriales.size() - 1 || opcionEd <= -1);
 
-					Superheroe superhero = new Superheroe(nombreSuper, identidad, poderes, (short) año,
-							editoriales.get(opcionEd));
+					Superheroe superhero = new Superheroe("Spiderman", "Peter Parker", "Poderes aracnidos",
+							(short) 1977, editoriales.get(opcionEd));
 					funcionesHeroe.insertar(superhero);
 				}
 				System.out.println("Tu superheroe se ha introducido correctamente");
@@ -181,54 +163,14 @@ public class MainSuperheroes {
 
 					} while (opcionModificar > mostrarEditoriales.size() - 1 || opcionModificar <= -1);
 
-					byte opcionNombre = -1;
+					mostrarEditoriales.get(opcionModificar).setNombre("Editorial Modificada");
+					mostrarEditoriales.get(opcionModificar).setFundador_fundadores("Fundador modificado");
+					mostrarEditoriales.get(opcionModificar).setFecha_fundacion(Date.valueOf("2022-12-16"));
 
-					do {
-						System.out.println("¿Quieres modificar su nombre?\n" + "1 - Si" + "\n2 - No");
-						opcionNombre = Byte.parseByte(sc.nextLine());
-					} while (opcionNombre != 1 && opcionNombre != 2);
-
-					if (opcionNombre == 1) {
-						System.out.println("Introduce el nuevo nombre de la editorial: ");
-						String nuevoNombre = sc.nextLine();
-						mostrarEditoriales.get(opcionModificar).setNombre(nuevoNombre);
-						funciones.modificar(mostrarEditoriales.get(opcionModificar));
-					} else {
-						System.out.println("El nombre no se modificará");
-					}
-
-					do {
-						System.out.println("¿Quieres modificar su fundador/a?\n" + "1 - Si" + "\n2 - No");
-						opcionNombre = Byte.parseByte(sc.nextLine());
-					} while (opcionNombre != 1 && opcionNombre != 2);
-
-					if (opcionNombre == 1) {
-						System.out.println("Introduce el nuevo nombre de el/la fundadora/a: ");
-						String nuevoFundador = sc.nextLine();
-						mostrarEditoriales.get(opcionModificar).setFundador_fundadores(nuevoFundador);
-						;
-						funciones.modificar(mostrarEditoriales.get(opcionModificar));
-					} else {
-						System.out.println("El fundador/a no se modificará");
-					}
-
-					do {
-						System.out.println("¿Quieres modificar su fecha de fundación?\n" + "1 - Si" + "\n2 - No");
-						opcionNombre = Byte.parseByte(sc.nextLine());
-					} while (opcionNombre != 1 && opcionNombre != 2);
-
-					if (opcionNombre == 1) {
-						System.out.println("Introduce la nueva fecha: ");
-						String nuevoFecha = sc.nextLine();
-						Date fechitaMod = Date.valueOf(nuevoFecha);
-						mostrarEditoriales.get(opcionModificar).setFecha_fundacion(fechitaMod);
-						funciones.modificar(mostrarEditoriales.get(opcionModificar));
-					} else {
-						System.out.println("La fecha no se modificará");
-					}
+					funciones.modificar(mostrarEditoriales.get(opcionModificar));
 
 					System.out.println("Editorial modificada correctamente");
-
+					break;
 				}
 
 			case 8:
@@ -249,77 +191,54 @@ public class MainSuperheroes {
 
 					} while (opcionSuper > mostrarHeros.size() - 1 || opcionSuper <= -1);
 
-					byte opcionNombre = -1;
-					do {
-						System.out.println("¿Quieres modificar su nombre?\n" + "1 - Si" + "\n2 - No");
-						opcionNombre = Byte.parseByte(sc.nextLine());
+					mostrarHeros.get(opcionSuper).setNombre("Superheroe modificado");
+					mostrarHeros.get(opcionSuper).setIdentidad_secreta("Yo");
+					mostrarHeros.get(opcionSuper).setPoderes("Poderes modificado");
+					mostrarHeros.get(opcionSuper).setAño_primera_aparicion((short) 1999);
 
-					} while (opcionNombre != 1 && opcionNombre != 2);
-
-					if (opcionNombre == 1) {
-						System.out.println("Introduce el nuevo nombre del superheroe:");
-						String nombreHero = sc.nextLine();
-						mostrarHeros.get(opcionSuper).setNombre(nombreHero);
-						funcionesHeroe.modificar(mostrarHeros.get(opcionSuper));
-					} else {
-						System.out.println("El nombre no se cambiará");
-					}
-
-					do {
-						System.out.println("¿Quieres modificar su identidad?\n" + "1 - Si" + "\n2 - No");
-						opcionNombre = Byte.parseByte(sc.nextLine());
-
-					} while (opcionNombre != 1 && opcionNombre != 2);
-
-					if (opcionNombre == 1) {
-						System.out.println("Introduce la nueva identidad del superheroe:");
-						String nombreIdentidad = sc.nextLine();
-						mostrarHeros.get(opcionSuper).setIdentidad_secreta(nombreIdentidad);
-						funcionesHeroe.modificar(mostrarHeros.get(opcionSuper));
-					} else {
-						System.out.println("La identidad no se cambiará");
-					}
-
-					do {
-						System.out.println("¿Quieres modificar sus poderes?\n" + "1 - Si" + "\n2 - No");
-						opcionNombre = Byte.parseByte(sc.nextLine());
-
-					} while (opcionNombre != 1 && opcionNombre != 2);
-
-					if (opcionNombre == 1) {
-						System.out.println("Introduce los nuevos poderes del superheroe:");
-						String poderes = sc.nextLine();
-						mostrarHeros.get(opcionSuper).setPoderes(poderes);
-						funcionesHeroe.modificar(mostrarHeros.get(opcionSuper));
-					} else {
-						System.out.println("Los poderes no se cambiarán");
-					}
-
-					do {
-						System.out.println("¿Quieres modificar su fecha de aparición?\n" + "1 - Si" + "\n2 - No");
-						opcionNombre = Byte.parseByte(sc.nextLine());
-
-					} while (opcionNombre != 1 && opcionNombre != 2);
-
-					if (opcionNombre == 1) {
-						System.out.println("Introduce la nueva fecha:");
-						Short primeraAp = Short.parseShort(sc.nextLine());
-						mostrarHeros.get(opcionSuper).setAño_primera_aparicion(primeraAp);
-						funcionesHeroe.modificar(mostrarHeros.get(opcionSuper));
-					} else {
-						System.out.println("La fecha no se cambiará");
-					}
-
+					funcionesHeroe.modificar(mostrarHeros.get(opcionSuper));
+					break;
 				}
 			case 9:
-				System.out.println("Borrando todos los superheroes...");
+				mostrarHeros = new ArrayList<Superheroe>();
 				funcionesHeroe = new SuperheroeDao();
-				funcionesHeroe.borrarTodos();
+				mostrarHeros = funcionesHeroe.buscarTodos();
+				if (mostrarHeros.isEmpty()) {
+					System.out.println(
+							"\nTodavía no hay ningun superheroe en la base de datos, debes introducir uno primero\n");
+					break;
+				} else {
+					System.out.println("Borrando todos los superheroes...");
+					funcionesHeroe = new SuperheroeDao();
+					funcionesHeroe.borrarTodos();
+					break;
+				}
 
+			case 10:
+				funciones = new EditorialDao();
+				mostrarEditoriales = funciones.buscarTodos();
+				if (mostrarEditoriales.isEmpty()) {
+					System.out.println(
+							"\nTodavía no hay ninguna editorial en la base de datos, debes introducir una primero\n");
+					break;
+				} else {
+					System.out.println("Borrando todas las editoriales...");
+					funciones = new EditorialDao();
+					funciones.borrarTodos();
+					break;
+				}
+
+			case 11:
+				System.out.println("Borrando todos los datos de la BBDD");
+				SuperheroeDao truncate = new SuperheroeDao();
+				EditorialDao truncateEd = new EditorialDao();
+				truncate.truncateSuperheroe();
+				truncateEd.truncateEditoriales();
+				break;
 			}
 
-		} while (opcion != 10);
-		
+		} while (opcion != 12);
+
 		System.out.println("Saliendo...");
 
 	}
